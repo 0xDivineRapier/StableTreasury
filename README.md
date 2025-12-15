@@ -1,86 +1,94 @@
 # Stable-Treasury 🏦
 
-> A high-performance FX optimization engine and treasury terminal for comparing banking, fintech, and crypto rails for IDR settlements.
+> **The Operating System for Cross-Border Capital.**
+> Compare banking rails, fintech providers, and stablecoins in real-time to find the arbitrage in every invoice.
 
 ![Status](https://img.shields.io/badge/Status-Beta-emerald) ![Tech](https://img.shields.io/badge/Stack-React_|_Tailwind_|_Gemini-blue) ![License](https://img.shields.io/badge/License-MIT-slate)
 
-## ⚡ Overview
+---
 
-**Stable-Treasury** is a financial dashboard designed to help CFOs and Treasury Managers find arbitrage opportunities in cross-border payments. It aggregates real-time data from traditional banks (SWIFT), fintech providers (Wise), and stablecoin rails (USDT) to visualize the most cost-effective settlement route.
+## 🧐 The Problem
+Treasury Managers and CFOs often lose **1-3%** on cross-border settlements due to opaque banking spreads and hidden fees. Comparing rates manually between SWIFT, Fintechs (like Wise), and Crypto rails (USDT) is slow, manual, and inefficient.
 
-## 🚀 Key Features
+## 💡 The Solution
+**Stable-Treasury** is a unified terminal that aggregates real-time data to visualize the most cost-effective settlement route for IDR/USD pairs. It leverages **Google Gemini 2.5 Flash** to analyze market sentiment and suggest execution timing.
 
-- **Real-Time Arbitrage Engine**: Instantly compares effective exchange rates across BCA, Wise, and USDT rails.
-- **AI Market Intelligence**: Integrated with **Google Gemini 2.5 Flash** to provide real-time sentiment analysis and strategic execution recommendations based on transaction volume.
-- **Interactive Charting**: Visualizes spread history and volatility over a 7-day period to track banking vs. stablecoin efficiency.
-- **Institutional UI**: Dark-mode, terminal-inspired interface built for high-density information display.
-- **Hybrid Authentication**: Supports both **Web3** (Wallet Connect simulation) and **Web2** (Email) login workflows.
-- **Trade Execution**: Full "Buy/Sell" workflow simulation for crypto assets with slippage warnings and fee calculation.
+---
 
-## 🛠️ Tech Stack
+## ⚡ Core Features
 
-- **Frontend**: React 19, TypeScript
-- **Styling**: Tailwind CSS (Dark mode optimized)
-- **AI/LLM**: Google GenAI SDK (`@google/genai`)
-- **Visualization**: Recharts
-- **Icons**: Lucide React
+### 1. Real-Time Arbitrage Engine 📊
+Instantly calculate the **Effective Exchange Rate** across three distinct rails:
+*   **Bank TT (BCA)**: Traditional SWIFT transfers (High flat fees, stable rates).
+*   **Fintech (Wise)**: Mid-market rate providers (Percentage fees, fast settlement).
+*   **Stablecoin (USDT)**: Blockchain-based settlement (Low fees, high volatility).
 
-## 🏁 Getting Started
+### 2. AI Market Intelligence 🧠
+Integrated with **Google Gemini 2.5 Flash**, the app analyzes market conditions to provide:
+*   **Sentiment Analysis**: Bullish/Bearish indicators for USD.
+*   **Strategic Advice**: "Wait for better rates" or "Execute now" based on transaction size.
+
+### 3. Institutional Execution 🛡️
+*   **Terminal UI**: Built for high-density information with a "Bloomberg Terminal" aesthetic.
+*   **Simulated Trading**: Full Buy/Sell workflow for crypto assets with slippage protection.
+*   **Hybrid Auth**: Seamless support for both Web2 (Email) and Web3 (Wallet) login.
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- Node.js (v18 or higher)
-- A Google Gemini API Key (get one at [aistudio.google.com](https://aistudio.google.com))
+*   Node.js (v18+)
+*   Google Gemini API Key (Get it [here](https://aistudio.google.com))
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/stable-treasury.git
-   cd stable-treasury
-   ```
+1.  **Clone the repo**
+    ```bash
+    git clone https://github.com/yourusername/stable-treasury.git
+    cd stable-treasury
+    ```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-3. Configure your environment:
-   Create a `.env` file in the root directory:
-   ```env
-   API_KEY=your_google_gemini_api_key_here
-   ```
+3.  **Set up Environment**
+    Create a `.env` file in the root directory:
+    ```env
+    API_KEY=your_google_gemini_api_key_here
+    ```
 
-4. Start the application:
-   ```bash
-   npm start
-   ```
+4.  **Run Development Server**
+    ```bash
+    npm start
+    ```
 
-## 📂 Project Structure
+---
 
-```bash
-├── components/          # UI Components
-│   ├── RateCard.tsx     # Core rate comparison logic & display
-│   ├── Landing.tsx      # Marketing landing page
-│   ├── TradeModal.tsx   # Buy/Sell execution modal
-│   └── ...
-├── services/            # External API integrations
-│   └── geminiService.ts # Google GenAI implementation
-├── docs/                # Technical documentation
-├── types.ts             # Shared TypeScript definitions
-├── App.tsx              # Main application logic & routing
-└── index.tsx            # Entry point
-```
+## 🏗️ Architecture Overview
 
-## 🧠 AI Integration
+This project is built as a lightweight **Single Page Application (SPA)** using React 19.
 
-This project uses the **Google Gemini 2.5 Flash** model to analyze simulated market conditions. The prompt engineering is located in `services/geminiService.ts`.
+| Component | Description |
+| :--- | :--- |
+| **`App.tsx`** | Central controller managing routing, user state, and memoized calculations. |
+| **`services/geminiService.ts`** | Handles AI prompt engineering and JSON schema validation. |
+| **`components/RateCard.tsx`** | Visualizes rate data and highlights the best option. |
+| **`components/TradeModal.tsx`** | Simulates the execution layer with async state handling. |
 
-It requests a structured **JSON** response to ensure type safety in the UI, providing:
-1.  **Sentiment**: `BULLISH` | `BEARISH` | `NEUTRAL`
-2.  **Summary**: Concise market overview.
-3.  **Recommendation**: Actionable advice for the specific transaction volume.
+## 💹 Financial Logic
+
+The engine uses memoized formulas to calculate **Net USD Received**:
+
+*   **Bank**: `(Input - FlatFee) / BankRate`
+*   **Fintech**: `(Input - %Fee) / MidMarketRate`
+*   **Crypto**: `((Input - TradingFee) / ExchangeRate) - GasFee`
+
+*Check `docs/TECHNICAL_GUIDE.md` for deep dives into specific formulas.*
+
+---
 
 ## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
+MIT © Stable-Treasury Systems
